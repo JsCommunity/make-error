@@ -1,0 +1,30 @@
+{
+  "name": "make-error",
+  "version": "0.0.0",
+  "license": "ISC",
+  "description": "Make your own error types!",
+  "keywords": [
+    "custom",
+    "derive",
+    "Error",
+    "extend",
+    "inherit"
+  ],
+  "homepage": "https://github.com/julien-f/js-make-error",
+  "bugs": "https://github.com/julien-f/js-make-error/issues",
+  "author": "Julien Fontanet <julien.fontanet@isonoe.net>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/julien-f/js-make-error.git"
+  },
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^1.21.4"
+  },
+  "scripts": {
+    "test": "mocha index.spec.js"
+  },
+  "files": [
+    "index.js"
+  ]
+}
