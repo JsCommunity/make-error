@@ -17,17 +17,15 @@ if (Error.captureStackTrace) {
 
     Object.defineProperty(error, 'stack', {
       configurable: true,
-      enumerable: false,
-      writable: false,
       get: function getStack() {
         var stack = container.stack;
-
-        // Free memory.
-        container = null;
 
         // Replace property with value for faster future accesses.
         delete error.stack;
         error.stack = container.stack;
+
+        // Free memory.
+        container = null;
 
         return stack;
       },
@@ -45,10 +43,7 @@ function BaseError(message) {
 
 BaseError.prototype = Object.create(Error.prototype, {
   name: {
-    configurable: false,
-    enumerable: false,
     value: 'BaseError',
-    writable: false,
   },
 });
 
@@ -67,16 +62,10 @@ function makeError(constructor, super_) {
 
   constructor.prototype = Object.create(super_.prototype, {
     constructor: {
-      configurable: false,
-      enumerable: false,
       value: constructor,
-      writable: false,
     },
     name: {
-      configurable: false,
-      enumerable: false,
       value: constructor.name,
-      writable: false,
     },
   });
 
