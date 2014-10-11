@@ -4,24 +4,52 @@
 [![Dependency Status](https://david-dm.org/julien-f/js-make-error/status.svg?theme=shields.io)](https://david-dm.org/julien-f/js-make-error)
 [![devDependency Status](https://david-dm.org/julien-f/js-make-error/dev-status.svg?theme=shields.io)](https://david-dm.org/julien-f/js-make-error#info=devDependencies)
 
-> Makes a function behaves as a method.
+> Make your own error types!
 
 
-## Install
+## Features
 
-Download [manually](https://github.com/julien-f/js-make-error/releases) or with package-manager.
+- Compatible Node & browsers
+- `instanceof` support
+- `error.name` & `error.stack` support
 
-#### [npm](https://npmjs.org/package/make-error)
+## Installation
+
+### Node
+
+Installation of the [npm package](https://npmjs.org/package/make-error):
 
 ```
-npm install --save make-error
+> npm install --save make-error
+```
+
+Then require the package:
+
+```javascript
+var makeError = require('make-error');
+```
+
+### Browser
+
+Clone the git repository and compile the browser version of the
+library:
+
+```
+> git clone https://github.com/julien-f/js-make-error.git
+> npm install
+> npm run browserify
+```
+
+Then import the script `make-error.js` which has been compiled in the
+`dist/` directory:
+
+```html
+<script src="make-error.js"></script>
 ```
 
 ## Usage
 
 ```javascript
-var makeError = require('make-error');
-
 function CustomError() {
   CustomError.super.call(this, 'custom error message');
 }
