@@ -25,6 +25,7 @@
   },
   "scripts": {
     "browserify": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
+    "browser-test": "mkdir -p dist && browserify index.spec.js -o dist/test.js",
     "test": "mocha index.spec.js"
   },
   "files": [
