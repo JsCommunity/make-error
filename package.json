@@ -28,6 +28,15 @@
     "browser-test": "mkdir -p dist && browserify index.spec.js -o dist/test.js",
     "test": "mocha index.spec.js"
   },
+  "testling": {
+    "harness": "mocha-bdd",
+    "files": "index.spec.js",
+    "browsers": [
+      "ie/8..Latest",
+      "chrome/latest",
+      "firefox/latest"
+    ]
+  },
   "files": [
     "index.js"
   ]
