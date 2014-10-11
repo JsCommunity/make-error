@@ -18,15 +18,15 @@
     "url": "git://github.com/julien-f/js-make-error.git"
   },
   "devDependencies": {
-    "browserify": "^6.0.3",
     "chai": "^1.9.2",
     "mocha": "^1.21.4",
+    "testling": "^1.7.1",
     "uglify-js": "^2.4.15"
   },
   "scripts": {
     "browserify": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
-    "browser-test": "mkdir -p dist && browserify index.spec.js -o dist/test.js",
-    "test": "mocha index.spec.js"
+    "test": "mocha index.spec.js",
+    "test-browser": "testling -u"
   },
   "testling": {
     "harness": "mocha-bdd",
