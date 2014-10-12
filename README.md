@@ -49,16 +49,45 @@ Then import the script `make-error.js` which has been compiled in the
 
 ## Usage
 
+### Basic named error
+
 ```javascript
-function CustomError() {
+var CustomError = makeError('CustomError');
+
+// Parameters are forwarded to the super class (here Error).
+throw new CustomError('a message');
+```
+
+### Advanced error class
+
+```javascript
+function CustomError(customValue) {
   CustomError.super.call(this, 'custom error message');
+
+  this.customValue = customValue;
 }
 makeError(CustomError);
 
-function SpecializedCustomError() {
-  SpecializedCustomError.super.call(this);
+// Feel free to extend the prototype.
+CustomError.prototype.myMethod = function CustomError$myMethod() {
+  console.log('CustomError.myMethod (%s, %s)', this.code, this.message);
+};
+
+//-----
+
+try {
+  throw new CustomError(42);
+} catch (error) {
+  error.myMethod();
 }
-makeError(SpecializedCustomError, CustomError);
+```
+
+### Specialized error
+
+```js
+var SpecializedError = makeError('SpecializedError', CustomError);
+
+throw new SpecializedError(42);
 ```
 
 ## Contributions

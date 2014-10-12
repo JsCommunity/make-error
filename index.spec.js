@@ -54,11 +54,11 @@ it('creates a new error class', function () {
 
   var e = new MyError('my error message'); var stack = new Error().stack;
 
+  expect(constructorCalled).to.be.true;
+
   expect(e).to.be.an.instanceof(Error);
   expect(e).to.be.an.instanceof(BaseError);
   expect(e).to.be.an.instanceof(MyError);
-
-  expect(constructorCalled).to.be.true;
 
   expect(e.name).to.equal('MyError');
   expect(e.message).to.equal('my error message');
@@ -88,6 +88,21 @@ it('derives an existing error class', function () {
   expect(e).to.be.an.instanceof(MyDerivedError);
 
   expect(e.name).to.equal('MyDerivedError');
+  expect(e.message).to.equal('my error message');
+  expect(e.stack).is.a.string;
+  compareStacks(e.stack, stack);
+});
+
+it('creates a new error class from a name', function () {
+  var MyError = makeError('MyError');
+
+  var e = new MyError('my error message'); var stack = new Error().stack;
+
+  expect(e).to.be.an.instanceof(Error);
+  expect(e).to.be.an.instanceof(BaseError);
+  expect(e).to.be.an.instanceof(MyError);
+
+  expect(e.name).to.equal('MyError');
   expect(e.message).to.equal('my error message');
   expect(e.stack).is.a.string;
   compareStacks(e.stack, stack);

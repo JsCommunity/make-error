@@ -6,13 +6,22 @@
 
 //====================================================================
 
+var isString = (function (toS) {
+  var ref = toS.call('');
+  return function isString(val) {
+    return toS.call(val) === ref;
+  };
+})(Object.prototype.toString);
+
+//--------------------------------------------------------------------
+
 var captureStackTrace;
 if (Error.captureStackTrace) {
   captureStackTrace = function captureStackTrace(error, fn) {
     Error.captureStackTrace(error, fn);
   };
 } else {
-  captureStackTrace = function captureStackTrace(error, fn) {
+  captureStackTrace = function captureStackTrace(error) {
     var container = new Error();
 
     Object.defineProperty(error, 'stack', {
@@ -54,6 +63,16 @@ function makeError(constructor, super_) {
     super_ = BaseError;
   }
 
+  var name;
+  if (isString(constructor)) {
+    name = constructor;
+    constructor = function () {
+      super_.apply(this, arguments);
+    };
+  } else {
+    name = constructor.name;
+  }
+
   constructor.super = super_;
 
   // Register the super constructor also as `constructor.super_` just
@@ -65,7 +84,7 @@ function makeError(constructor, super_) {
       value: constructor,
     },
     name: {
-      value: constructor.name,
+      value: name,
     },
   });
 
