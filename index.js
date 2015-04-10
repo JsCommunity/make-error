@@ -47,8 +47,13 @@ function BaseError (message) {
 }
 
 BaseError.prototype = Object.create(Error.prototype, {
+  constructor: {
+    value: BaseError
+  },
   name: {
-    value: 'BaseError'
+    get: function getName () {
+      return this.constructor.name
+    }
   }
 })
 
@@ -65,8 +70,6 @@ function makeError (constructor, super_) {
     constructor = function () {
       super_.apply(this, arguments)
     }
-  } else {
-    name = constructor.name
   }
 
   constructor.super = super_
@@ -78,11 +81,14 @@ function makeError (constructor, super_) {
   constructor.prototype = Object.create(super_.prototype, {
     constructor: {
       value: constructor
-    },
-    name: {
-      value: name
     }
   })
+
+  if (name) {
+    Object.defineProperty(constructor.prototype, 'name', {
+      value: name
+    })
+  }
 
   return constructor
 }

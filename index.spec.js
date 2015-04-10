@@ -42,70 +42,103 @@ function splitLines (str) {
 
 // ===================================================================
 
-it('creates a new error class', function () {
-  var constructorCalled
+describe('makeError()', function () {
+  it('creates a new error class', function () {
+    var constructorCalled
 
-  function MyError (message) {
-    expect(MyError.super).to.equal(BaseError)
-    expect(MyError.super_).to.equal(BaseError)
+    function MyError (message) {
+      expect(MyError.super).to.equal(BaseError)
+      expect(MyError.super_).to.equal(BaseError)
 
-    MyError.super.call(this, message)
-    constructorCalled = true
-  }
-  makeError(MyError)
+      MyError.super.call(this, message)
+      constructorCalled = true
+    }
+    makeError(MyError)
 
-  var e = new MyError('my error message'); var stack = new Error().stack
+    var e = new MyError('my error message'); var stack = new Error().stack
 
-  expect(constructorCalled).to.be.true
+    expect(constructorCalled).to.be.true
 
-  expect(e).to.be.an.instanceof(Error)
-  expect(e).to.be.an.instanceof(BaseError)
-  expect(e).to.be.an.instanceof(MyError)
+    expect(e).to.be.an.instanceof(Error)
+    expect(e).to.be.an.instanceof(BaseError)
+    expect(e).to.be.an.instanceof(MyError)
 
-  expect(e.name).to.equal('MyError')
-  expect(e.message).to.equal('my error message')
-  expect(e.stack).is.a.string
-  compareStacks(e.stack, stack)
+    expect(e.name).to.equal('MyError')
+    expect(e.message).to.equal('my error message')
+    expect(e.stack).is.a.string
+    compareStacks(e.stack, stack)
+  })
+
+  it('derives an existing error class', function () {
+    function MyBaseError (message) {
+      MyBaseError.super.call(this, message)
+    }
+    makeError(MyBaseError)
+
+    function MyDerivedError (message) {
+      expect(MyDerivedError.super).to.equal(MyBaseError)
+      expect(MyDerivedError.super_).to.equal(MyBaseError)
+
+      MyBaseError.super.call(this, message)
+    }
+    makeError(MyDerivedError, MyBaseError)
+
+    var e = new MyDerivedError('my error message'); var stack = new Error().stack
+
+    expect(e).to.be.an.instanceof(Error)
+    expect(e).to.be.an.instanceof(BaseError)
+    expect(e).to.be.an.instanceof(MyBaseError)
+    expect(e).to.be.an.instanceof(MyDerivedError)
+
+    expect(e.name).to.equal('MyDerivedError')
+    expect(e.message).to.equal('my error message')
+    expect(e.stack).is.a.string
+    compareStacks(e.stack, stack)
+  })
+
+  it('creates a new error class from a name', function () {
+    var MyError = makeError('MyError')
+
+    var e = new MyError('my error message'); var stack = new Error().stack
+
+    expect(e).to.be.an.instanceof(Error)
+    expect(e).to.be.an.instanceof(BaseError)
+    expect(e).to.be.an.instanceof(MyError)
+
+    expect(e.name).to.equal('MyError')
+    expect(e.message).to.equal('my error message')
+    expect(e.stack).is.a.string
+    compareStacks(e.stack, stack)
+  })
 })
 
-it('derives an existing error class', function () {
-  function MyBaseError (message) {
-    MyBaseError.super.call(this, message)
-  }
-  makeError(MyBaseError)
+describe('BaseError', function () {
+  it('can be inherited directly', function () {
+    var constructorCalled
 
-  function MyDerivedError (message) {
-    expect(MyDerivedError.super).to.equal(MyBaseError)
-    expect(MyDerivedError.super_).to.equal(MyBaseError)
+    function MyError (message) {
+      BaseError.call(this, message)
+      constructorCalled = true
+    }
 
-    MyBaseError.super.call(this, message)
-  }
-  makeError(MyDerivedError, MyBaseError)
+    // Manually inherits from BaseError.
+    MyError.prototype = Object.create(BaseError.prototype, {
+      constructor: {
+        value: MyError
+      }
+    })
 
-  var e = new MyDerivedError('my error message'); var stack = new Error().stack
+    var e = new MyError('my error message'); var stack = new Error().stack
 
-  expect(e).to.be.an.instanceof(Error)
-  expect(e).to.be.an.instanceof(BaseError)
-  expect(e).to.be.an.instanceof(MyBaseError)
-  expect(e).to.be.an.instanceof(MyDerivedError)
+    expect(constructorCalled).to.be.true
 
-  expect(e.name).to.equal('MyDerivedError')
-  expect(e.message).to.equal('my error message')
-  expect(e.stack).is.a.string
-  compareStacks(e.stack, stack)
-})
+    expect(e).to.be.an.instanceof(Error)
+    expect(e).to.be.an.instanceof(BaseError)
+    expect(e).to.be.an.instanceof(MyError)
 
-it('creates a new error class from a name', function () {
-  var MyError = makeError('MyError')
-
-  var e = new MyError('my error message'); var stack = new Error().stack
-
-  expect(e).to.be.an.instanceof(Error)
-  expect(e).to.be.an.instanceof(BaseError)
-  expect(e).to.be.an.instanceof(MyError)
-
-  expect(e.name).to.equal('MyError')
-  expect(e.message).to.equal('my error message')
-  expect(e.stack).is.a.string
-  compareStacks(e.stack, stack)
+    expect(e.name).to.equal('MyError')
+    expect(e.message).to.equal('my error message')
+    expect(e.stack).is.a.string
+    compareStacks(e.stack, stack)
+  })
 })
