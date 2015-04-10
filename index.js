@@ -28,11 +28,9 @@ if (Error.captureStackTrace) {
         var stack = container.stack
 
         // Replace property with value for faster future accesses.
-        delete error.stack
-        error.stack = container.stack
-
-        // Free memory.
-        container = null
+        Object.defineProperty(this, 'stack', {
+          value: stack
+        })
 
         return stack
       }
