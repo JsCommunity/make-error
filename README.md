@@ -52,42 +52,56 @@ Then import the script `make-error.js` which has been compiled in the
 ### Basic named error
 
 ```javascript
-var CustomError = makeError('CustomError');
+var CustomError = makeError('CustomError')
 
 // Parameters are forwarded to the super class (here Error).
-throw new CustomError('a message');
+throw new CustomError('a message')
 ```
 
 ### Advanced error class
 
 ```javascript
-function CustomError(customValue) {
-  CustomError.super.call(this, 'custom error message');
+function CustomError (customValue) {
+  CustomError.super.call(this, 'custom error message')
 
-  this.customValue = customValue;
+  this.customValue = customValue
 }
-makeError(CustomError);
+makeError(CustomError)
 
 // Feel free to extend the prototype.
-CustomError.prototype.myMethod = function CustomError$myMethod() {
-  console.log('CustomError.myMethod (%s, %s)', this.code, this.message);
-};
+CustomError.prototype.myMethod = function CustomError$myMethod () {
+  console.log('CustomError.myMethod (%s, %s)', this.code, this.message)
+}
 
 //-----
 
 try {
-  throw new CustomError(42);
+  throw new CustomError(42)
 } catch (error) {
-  error.myMethod();
+  error.myMethod()
 }
 ```
 
 ### Specialized error
 
-```js
+```javascript
 var SpecializedError = makeError('SpecializedError', CustomError);
 
 throw new SpecializedError(42);
+```
+
+### Inheritance
+
+> Best for ES6.
+
+```javascript
+import {BaseError} from 'make-error'
+
+class CustomError extends BaseError {
+  constructor () {
+    super('custom error message')
+  }
+}
 ```
 
 ## Contributions
