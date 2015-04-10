@@ -21,12 +21,13 @@
     "browserify": "^6.0.3",
     "chai": "^1.9.2",
     "mocha": "^1.21.4",
+    "standard": "*",
     "testling": "^1.7.1",
     "uglify-js": "^2.4.15"
   },
   "scripts": {
     "browserify": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
-    "test": "mocha index.spec.js",
+    "test": "standard && mocha index.spec.js",
     "test-browser": "testling -u"
   },
   "testling": {
@@ -40,5 +41,10 @@
   },
   "files": [
     "index.js"
-  ]
+  ],
+  "standard": {
+    "ignore": [
+      "dist/**"
+    ]
+  }
 }

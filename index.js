@@ -1,94 +1,92 @@
 // ISC @ Julien Fontanet
-//
-// https://gist.github.com/julien-f/26daf1aa567e68bfa7fe
 
-'use strict';
+'use strict'
 
-//====================================================================
+// ===================================================================
 
 var isString = (function (toS) {
-  var ref = toS.call('');
-  return function isString(val) {
-    return toS.call(val) === ref;
-  };
-})(Object.prototype.toString);
+  var ref = toS.call('')
+  return function isString (val) {
+    return toS.call(val) === ref
+  }
+})(Object.prototype.toString)
 
-//--------------------------------------------------------------------
+// -------------------------------------------------------------------
 
-var captureStackTrace;
+var captureStackTrace
 if (Error.captureStackTrace) {
-  captureStackTrace = function captureStackTrace(error, fn) {
-    Error.captureStackTrace(error, fn);
-  };
+  captureStackTrace = function captureStackTrace (error, fn) {
+    Error.captureStackTrace(error, fn)
+  }
 } else {
-  captureStackTrace = function captureStackTrace(error) {
-    var container = new Error();
+  captureStackTrace = function captureStackTrace (error) {
+    var container = new Error()
 
     Object.defineProperty(error, 'stack', {
       configurable: true,
-      get: function getStack() {
-        var stack = container.stack;
+      get: function getStack () {
+        var stack = container.stack
 
         // Replace property with value for faster future accesses.
-        delete error.stack;
-        error.stack = container.stack;
+        delete error.stack
+        error.stack = container.stack
 
         // Free memory.
-        container = null;
+        container = null
 
-        return stack;
-      },
-    });
-  };
+        return stack
+      }
+    })
+  }
 }
 
-//--------------------------------------------------------------------
+// -------------------------------------------------------------------
 
-function BaseError(message) {
-  this.message = message;
+function BaseError (message) {
+  this.message = message
 
-  captureStackTrace(this, this.constructor);
+  captureStackTrace(this, this.constructor)
 }
 
 BaseError.prototype = Object.create(Error.prototype, {
   name: {
-    value: 'BaseError',
-  },
-});
+    value: 'BaseError'
+  }
+})
 
-//--------------------------------------------------------------------
+// -------------------------------------------------------------------
 
-function makeError(constructor, super_) {
+function makeError (constructor, super_) {
   if (!super_ || super_ === Error) {
-    super_ = BaseError;
+    super_ = BaseError
   }
 
-  var name;
+  var name
   if (isString(constructor)) {
-    name = constructor;
+    name = constructor
     constructor = function () {
-      super_.apply(this, arguments);
-    };
+      super_.apply(this, arguments)
+    }
   } else {
-    name = constructor.name;
+    name = constructor.name
   }
 
-  constructor.super = super_;
+  constructor.super = super_
 
   // Register the super constructor also as `constructor.super_` just
   // like Node's `util.inherits()`.
-  constructor.super_ = constructor.super;
+  constructor.super_ = constructor.super
 
   constructor.prototype = Object.create(super_.prototype, {
     constructor: {
-      value: constructor,
+      value: constructor
     },
     name: {
-      value: name,
-    },
-  });
+      value: name
+    }
+  })
 
-  return constructor;
+  return constructor
 }
-exports = module.exports = makeError;
-exports.BaseError = BaseError;
+exports = module.exports = makeError
+exports.BaseError = BaseError

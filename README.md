@@ -15,7 +15,7 @@
 
 ## Installation
 
-### Node
+### Node & Browserify
 
 Installation of the [npm package](https://npmjs.org/package/make-error):
 
