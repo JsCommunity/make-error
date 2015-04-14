@@ -4,6 +4,10 @@
 
 // ===================================================================
 
+var defineProperty = Object.defineProperty
+
+// -------------------------------------------------------------------
+
 var isString = (function (toS) {
   var ref = toS.call('')
   return function isString (val) {
@@ -41,7 +45,13 @@ if (Error.captureStackTrace) {
 // -------------------------------------------------------------------
 
 function BaseError (message) {
-  this.message = message
+  if (message) {
+    defineProperty(this, 'message', {
+      configurable: true,
+      value: message,
+      writable: true
+    })
+  }
 
   captureStackTrace(this, this.constructor)
 }
@@ -85,7 +95,7 @@ function makeError (constructor, super_) {
   })
 
   if (name) {
-    Object.defineProperty(constructor.prototype, 'name', {
+    defineProperty(constructor.prototype, 'name', {
       value: name
     })
   }
