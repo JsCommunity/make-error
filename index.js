@@ -19,20 +19,18 @@ var isString = (function (toS) {
 
 var captureStackTrace
 if (Error.captureStackTrace) {
-  captureStackTrace = function captureStackTrace (error, fn) {
-    Error.captureStackTrace(error, fn)
-  }
+  captureStackTrace = Error.captureStackTrace
 } else {
   captureStackTrace = function captureStackTrace (error) {
     var container = new Error()
 
-    Object.defineProperty(error, 'stack', {
+    defineProperty(error, 'stack', {
       configurable: true,
       get: function getStack () {
         var stack = container.stack
 
         // Replace property with value for faster future accesses.
-        Object.defineProperty(this, 'stack', {
+        defineProperty(this, 'stack', {
           value: stack
         })
 
