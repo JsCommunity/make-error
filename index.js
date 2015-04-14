@@ -51,17 +51,20 @@ function BaseError (message) {
     })
   }
 
+  // The name property has to be defined directly on the object for V8
+  // to use it in stack traces.
+  defineProperty(this, 'name', {
+    configurable: true,
+    value: this.constructor.name,
+    writable: true
+  })
+
   captureStackTrace(this, this.constructor)
 }
 
 BaseError.prototype = Object.create(Error.prototype, {
   constructor: {
     value: BaseError
-  },
-  name: {
-    get: function getName () {
-      return this.constructor.name
-    }
   }
 })
 
@@ -72,12 +75,9 @@ function makeError (constructor, super_) {
     super_ = BaseError
   }
 
-  var name
   if (isString(constructor)) {
-    name = constructor
-    constructor = function () {
-      super_.apply(this, arguments)
-    }
+    /* eslint no-eval: 0 */
+    eval('constructor = function ' + constructor + '() { super_.apply(this, arguments) }')
   }
 
   constructor.super = super_
@@ -91,12 +91,6 @@ function makeError (constructor, super_) {
       value: constructor
     }
   })
-
-  if (name) {
-    defineProperty(constructor.prototype, 'name', {
-      value: name
-    })
-  }
 
   return constructor
 }
