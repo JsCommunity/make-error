@@ -18,8 +18,8 @@
     "url": "git://github.com/julien-f/js-make-error.git"
   },
   "devDependencies": {
-    "browserify": "^9.0.8",
-    "chai": "^2.2.0",
+    "browserify": "^11.2.0",
+    "chai": "^3.3.0",
     "mocha": "^2.2.4",
     "standard": "*",
     "testling": "^1.7.1",
