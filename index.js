@@ -19,9 +19,7 @@ var isString = (function (toS) {
 
 var captureStackTrace
 if (Error.captureStackTrace) {
-  captureStackTrace = function captureStackTrace (error, constructorOpt) {
-    Error.captureStackTrace(error, constructorOpt)
-  }
+  captureStackTrace = Error.captureStackTrace
 } else {
   captureStackTrace = function captureStackTrace (error) {
     var container = new Error()
