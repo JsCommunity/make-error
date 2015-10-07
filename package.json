@@ -1,6 +1,6 @@
 {
   "name": "make-error",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "ISC",
   "description": "Make your own error types!",
   "keywords": [
