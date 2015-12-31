@@ -58,13 +58,17 @@ function BaseError (message) {
     })
   }
 
-  // The name property has to be defined directly on the object for V8
-  // to use it in stack traces.
-  defineProperty(this, 'name', {
-    configurable: true,
-    value: this.constructor.name,
-    writable: true
-  })
+  var cname = this.constructor.name
+  if (
+    cname &&
+    cname !== this.name
+  ) {
+    defineProperty(this, 'name', {
+      configurable: true,
+      value: cname,
+      writable: true
+    })
+  }
 
   captureStackTrace(this, this.constructor)
 }
@@ -84,9 +88,12 @@ function makeError (constructor, super_) {
     super_ = BaseError
   }
 
+  var name
   if (isString(constructor)) {
-    /* eslint no-eval: 0 */
-    eval('constructor = function ' + constructor + '() { super_.apply(this, arguments) }')
+    name = constructor
+    constructor = function () { super_.apply(this, arguments) }
+  } else {
+    name = constructor.name
   }
 
   // Also register the super constructor also as `constructor.super_` just
@@ -97,6 +104,11 @@ function makeError (constructor, super_) {
     constructor: {
       configurable: true,
       value: constructor,
+      writable: true
+    },
+    name: {
+      configurable: true,
+      value: name,
       writable: true
     }
   })

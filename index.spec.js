@@ -63,7 +63,6 @@ describe('makeError()', function () {
     expect(e).to.be.an.instanceof(BaseError)
     expect(e).to.be.an.instanceof(MyError)
 
-    expect(e).to.have.ownProperty('name')
     expect(e.name).to.equal('MyError')
     expect(e.message).to.equal('my error message')
     expect(e.stack).is.a.string
@@ -91,7 +90,6 @@ describe('makeError()', function () {
     expect(e).to.be.an.instanceof(MyBaseError)
     expect(e).to.be.an.instanceof(MyDerivedError)
 
-    expect(e).to.have.ownProperty('name')
     expect(e.name).to.equal('MyDerivedError')
     expect(e.message).to.equal('my error message')
     expect(e.stack).is.a.string
@@ -107,7 +105,6 @@ describe('makeError()', function () {
     expect(e).to.be.an.instanceof(BaseError)
     expect(e).to.be.an.instanceof(MyError)
 
-    expect(e).to.have.ownProperty('name')
     expect(e.name).to.equal('MyError')
     expect(e.message).to.equal('my error message')
     expect(e.stack).is.a.string
@@ -139,7 +136,6 @@ describe('BaseError', function () {
     expect(e).to.be.an.instanceof(BaseError)
     expect(e).to.be.an.instanceof(MyError)
 
-    expect(e).to.have.ownProperty('name')
     expect(e.name).to.equal('MyError')
     expect(e.message).to.equal('my error message')
     expect(e.stack).is.a.string

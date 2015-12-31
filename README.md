@@ -12,6 +12,7 @@
 - Compatible Node & browsers
 - `instanceof` support
 - `error.name` & `error.stack` support
+- compatible with [CSP](https://en.wikipedia.org/wiki/Content_Security_Policy) (i.e. no `eval()`)
 
 ## Installation
 
