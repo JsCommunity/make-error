@@ -35,6 +35,13 @@ if (Error.captureStackTrace) {
         })
 
         return stack
+      },
+      set: function setStack (stack) {
+        defineProperty(error, 'stack', {
+          configurable: true,
+          value: stack,
+          writable: true
+        })
       }
     })
   }
