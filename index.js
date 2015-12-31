@@ -89,11 +89,9 @@ function makeError (constructor, super_) {
     eval('constructor = function ' + constructor + '() { super_.apply(this, arguments) }')
   }
 
-  constructor.super = super_
-
-  // Register the super constructor also as `constructor.super_` just
+  // Also register the super constructor also as `constructor.super_` just
   // like Node's `util.inherits()`.
-  constructor.super_ = constructor.super
+  constructor.super_ = constructor['super'] = super_
 
   constructor.prototype = Object.create(super_.prototype, {
     constructor: {
