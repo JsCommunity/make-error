@@ -70,6 +70,8 @@ function BaseError (message) {
 }
 
 BaseError.prototype = Object.create(Error.prototype, {
+  // Not configurable or writable because this class should not be
+  // altered by users.
   constructor: {
     value: BaseError
   }
@@ -95,7 +97,9 @@ function makeError (constructor, super_) {
 
   constructor.prototype = Object.create(super_.prototype, {
     constructor: {
-      value: constructor
+      configurable: true,
+      value: constructor,
+      writable: true
     }
   })
 
