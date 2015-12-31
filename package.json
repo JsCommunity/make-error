@@ -41,10 +41,5 @@
   },
   "files": [
     "index.js"
-  ],
-  "standard": {
-    "ignore": [
-      "dist/**"
-    ]
-  }
+  ]
 }
