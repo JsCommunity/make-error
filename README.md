@@ -105,6 +105,10 @@ class CustomError extends BaseError {
 }
 ```
 
+## Related
+
+- [make-error-cause](https://www.npmjs.com/package/make-error-cause): Make your own error types, with a cause!
+
 ## Contributions
 
 Contributions are *very* welcomed, either on the documentation or on
