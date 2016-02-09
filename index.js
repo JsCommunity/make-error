@@ -74,10 +74,11 @@ function BaseError (message) {
 }
 
 BaseError.prototype = Object.create(Error.prototype, {
-  // Not configurable or writable because this class should not be
-  // altered by users.
+  // See: https://github.com/julien-f/js-make-error/issues/4
   constructor: {
-    value: BaseError
+    configurable: true,
+    value: BaseError,
+    writable: true
   }
 })
 

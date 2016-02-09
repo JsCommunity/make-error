@@ -141,4 +141,27 @@ describe('BaseError', function () {
     expect(e.stack).is.a.string
     compareStacks(e.stack, stack)
   })
+
+  it('supports ES3 inheritance', function () {
+    function MyError (message) {
+      BaseError.call(this, message)
+    }
+
+    function Tmp () {
+      this.constructor = MyError
+    }
+    Tmp.prototype = BaseError.prototype
+    MyError.prototype = new Tmp()
+
+    var e = new MyError('my error message'); var stack = new Error().stack
+
+    expect(e).to.be.an.instanceof(Error)
+    expect(e).to.be.an.instanceof(BaseError)
+    expect(e).to.be.an.instanceof(MyError)
+
+    expect(e.name).to.equal('MyError')
+    expect(e.message).to.equal('my error message')
+    expect(e.stack).is.a.string
+    compareStacks(e.stack, stack)
+  })
 })
