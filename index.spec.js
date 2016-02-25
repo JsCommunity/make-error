@@ -43,6 +43,15 @@ function splitLines (str) {
 // ===================================================================
 
 describe('makeError()', function () {
+  it('throws on invalid arguments', function () {
+    expect(function () {
+      makeError(42)
+    }).to.throw(TypeError)
+    expect(function () {
+      makeError('MyError', 42)
+    }).to.throw(TypeError)
+  })
+
   it('creates a new error class', function () {
     var constructorCalled
 

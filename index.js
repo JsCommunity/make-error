@@ -76,7 +76,7 @@ BaseError.prototype = Object.create(Error.prototype, {
 // -------------------------------------------------------------------
 
 function makeError (constructor, super_) {
-  if (!super_ || super_ === Error) {
+  if (super_ == null || super_ === Error) {
     super_ = BaseError
   } else if (typeof super_ !== 'function') {
     throw new TypeError('super_ should be a function')
