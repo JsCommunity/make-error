@@ -8,15 +8,6 @@ var defineProperty = Object.defineProperty
 
 // -------------------------------------------------------------------
 
-var isString = (function (toS) {
-  var ref = toS.call('')
-  return function isString (val) {
-    return toS.call(val) === ref
-  }
-})(Object.prototype.toString)
-
-// -------------------------------------------------------------------
-
 var captureStackTrace
 if (Error.captureStackTrace) {
   captureStackTrace = Error.captureStackTrace
@@ -87,14 +78,18 @@ BaseError.prototype = Object.create(Error.prototype, {
 function makeError (constructor, super_) {
   if (!super_ || super_ === Error) {
     super_ = BaseError
+  } else if (typeof super_ !== 'function') {
+    throw new TypeError('super_ should be a function')
   }
 
   var name
-  if (isString(constructor)) {
+  if (typeof constructor === 'string') {
     name = constructor
     constructor = function () { super_.apply(this, arguments) }
-  } else {
+  } else if (typeof constructor === 'function') {
     name = constructor.name
+  } else {
+    throw new TypeError('constructor should be either a string or a function')
   }
 
   // Also register the super constructor also as `constructor.super_` just
