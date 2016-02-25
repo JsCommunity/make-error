@@ -8,10 +8,8 @@ var defineProperty = Object.defineProperty
 
 // -------------------------------------------------------------------
 
-var captureStackTrace
-if (Error.captureStackTrace) {
-  captureStackTrace = Error.captureStackTrace
-} else {
+var captureStackTrace = Error.captureStackTrace
+if (!captureStackTrace) {
   captureStackTrace = function captureStackTrace (error) {
     var container = new Error()
 
