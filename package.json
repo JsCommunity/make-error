@@ -40,6 +40,7 @@
     ]
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ]
 }
