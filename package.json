@@ -3,10 +3,6 @@
   "version": "1.1.1",
   "license": "ISC",
   "description": "Make your own error types!",
-  "files": [
-    "index.js",
-    "index.d.ts"
-  ],
   "keywords": [
     "custom",
     "derive",
@@ -44,6 +40,7 @@
     ]
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ]
 }
