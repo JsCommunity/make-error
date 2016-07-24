@@ -1,8 +1,8 @@
 # make-error
 
-[![Build Status](https://img.shields.io/travis/julien-f/js-make-error/master.svg)](http://travis-ci.org/julien-f/js-make-error)
-[![Dependency Status](https://david-dm.org/julien-f/js-make-error/status.svg?theme=shields.io)](https://david-dm.org/julien-f/js-make-error)
-[![devDependency Status](https://david-dm.org/julien-f/js-make-error/dev-status.svg?theme=shields.io)](https://david-dm.org/julien-f/js-make-error#info=devDependencies)
+[![Build Status](https://img.shields.io/travis/JsCommunity/make-error/master.svg)](http://travis-ci.org/JsCommunity/make-error)
+[![Dependency Status](https://david-dm.org/JsCommunity/make-error/status.svg?theme=shields.io)](https://david-dm.org/JsCommunity/make-error)
+[![devDependency Status](https://david-dm.org/JsCommunity/make-error/dev-status.svg?theme=shields.io)](https://david-dm.org/JsCommunity/make-error#info=devDependencies)
 
 > Make your own error types!
 
@@ -36,7 +36,7 @@ Clone the git repository and compile the browser version of the
 library:
 
 ```
-> git clone https://github.com/julien-f/js-make-error.git
+> git clone https://github.com/JsCommunity/make-error.git
 > npm install
 > npm run browserify
 ```
@@ -116,7 +116,7 @@ the code.
 
 You may:
 
-- report any [issue](https://github.com/julien-f/js-make-error/issues)
+- report any [issue](https://github.com/JsCommunity/make-error/issues)
   you've encountered;
 - fork and create a pull request.
 

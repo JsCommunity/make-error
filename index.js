@@ -63,7 +63,7 @@ function BaseError (message) {
 }
 
 BaseError.prototype = Object.create(Error.prototype, {
-  // See: https://github.com/julien-f/js-make-error/issues/4
+  // See: https://github.com/JsCommunity/make-error/issues/4
   constructor: {
     configurable: true,
     value: BaseError,

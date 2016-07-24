@@ -10,12 +10,12 @@
     "extend",
     "inherit"
   ],
-  "homepage": "https://github.com/julien-f/js-make-error",
-  "bugs": "https://github.com/julien-f/js-make-error/issues",
+  "homepage": "https://github.com/JsCommunity/make-error",
+  "bugs": "https://github.com/JsCommunity/make-error/issues",
   "author": "Julien Fontanet <julien.fontanet@isonoe.net>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/julien-f/js-make-error.git"
+    "url": "git://github.com/JsCommunity/make-error.git"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
