@@ -21,12 +21,13 @@
     "browserify": "^13.0.0",
     "chai": "^3.3.0",
     "mocha": "^3.0.0",
-    "standard": "*",
+    "standard": "^8.0.0",
     "testling": "^1.7.1",
     "uglify-js": "^2.4.19"
   },
   "scripts": {
     "browserify": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
+    "dev-test": "mocha --watch --reporter=min index.spec.js",
     "test": "standard && mocha index.spec.js",
     "test-browser": "testling -u"
   },

@@ -73,6 +73,25 @@ BaseError.prototype = Object.create(Error.prototype, {
 
 // -------------------------------------------------------------------
 
+// Sets the name of a function if possible (depends of the JS engine).
+var setFunctionName = (function () {
+  function setFunctionName (fn, name) {
+    return defineProperty(fn, 'name', {
+      configurable: true,
+      value: name
+    })
+  }
+  try {
+    var f = function () {}
+    setFunctionName(f, 'foo')
+    if (f.name === 'foo') {
+      return setFunctionName
+    }
+  } catch (_) {}
+})()
+
+// -------------------------------------------------------------------
+
 function makeError (constructor, super_) {
   if (super_ == null || super_ === Error) {
     super_ = BaseError
@@ -84,9 +103,13 @@ function makeError (constructor, super_) {
   if (typeof constructor === 'string') {
     name = constructor
     constructor = function () { super_.apply(this, arguments) }
-  } else if (typeof constructor === 'function') {
-    name = constructor.name
-  } else {
+
+    // If the name can be set, do it once and for all.
+    if (setFunctionName) {
+      setFunctionName(constructor, name)
+      name = null
+    }
+  } else if (typeof constructor !== 'function') {
     throw new TypeError('constructor should be either a string or a function')
   }
 
@@ -94,18 +117,24 @@ function makeError (constructor, super_) {
   // like Node's `util.inherits()`.
   constructor.super_ = constructor['super'] = super_
 
-  constructor.prototype = Object.create(super_.prototype, {
+  var properties = {
     constructor: {
       configurable: true,
       value: constructor,
       writable: true
-    },
-    name: {
+    }
+  }
+
+  // If the name could not be set on the constructor, set it on the
+  // prototype.
+  if (name != null) {
+    properties.name = {
       configurable: true,
       value: name,
       writable: true
     }
-  })
+  }
+  constructor.prototype = Object.create(super_.prototype, properties)
 
   return constructor
 }
