@@ -89,7 +89,7 @@ throw new SpecializedError(42);
 
 ### Inheritance
 
-> Best for ES6.
+> Best for ES2015+.
 
 ```javascript
 import {BaseError} from 'make-error'
