@@ -4,11 +4,18 @@
   "license": "ISC",
   "description": "Make your own error types!",
   "keywords": [
+    "create",
     "custom",
     "derive",
-    "Error",
+    "error",
+    "errors",
     "extend",
-    "inherit"
+    "extending",
+    "extension",
+    "factory",
+    "inherit",
+    "make",
+    "subclass"
   ],
   "homepage": "https://github.com/JsCommunity/make-error",
   "bugs": "https://github.com/JsCommunity/make-error/issues",
