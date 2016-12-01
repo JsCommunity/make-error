@@ -1,8 +1,4 @@
-# make-error
-
-[![Build Status](https://img.shields.io/travis/JsCommunity/make-error/master.svg)](http://travis-ci.org/JsCommunity/make-error)
-[![Dependency Status](https://david-dm.org/JsCommunity/make-error/status.svg?theme=shields.io)](https://david-dm.org/JsCommunity/make-error)
-[![devDependency Status](https://david-dm.org/JsCommunity/make-error/dev-status.svg?theme=shields.io)](https://david-dm.org/JsCommunity/make-error#info=devDependencies)
+# make-error [![Build Status](https://img.shields.io/travis/JsCommunity/make-error/master.svg)](http://travis-ci.org/JsCommunity/make-error)
 
 > Make your own error types!
 
