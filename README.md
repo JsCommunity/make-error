@@ -12,7 +12,7 @@
 
 ## Installation
 
-### Node & Browserify
+### Node & [Browserify](http://browserify.org/)/[Webpack](https://webpack.js.org/)
 
 Installation of the [npm package](https://npmjs.org/package/make-error):
 
@@ -28,20 +28,10 @@ var makeError = require('make-error');
 
 ### Browser
 
-Clone the git repository and compile the browser version of the
-library:
-
-```
-> git clone https://github.com/JsCommunity/make-error.git
-> npm install
-> npm run browserify
-```
-
-Then import the script `make-error.js` which has been compiled in the
-`dist/` directory:
+You can directly use the build provided at [unpkg.com](https://unpkg.com):
 
 ```html
-<script src="make-error.js"></script>
+<script src="https://unpkg.com/make-error@1.2.1/dist/make-error.js"></script>
 ```
 
 ## Usage

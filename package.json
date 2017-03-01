@@ -31,12 +31,13 @@
     "uglify-js": "^2.4.19"
   },
   "scripts": {
-    "browserify": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
     "dev-test": "jest --watch",
+    "prepublish": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
     "pretest": "standard",
     "test": "jest"
   },
   "files": [
+    "dist/",
     "index.js",
     "index.d.ts"
   ]
