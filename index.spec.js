@@ -1,15 +1,11 @@
 'use strict'
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 // ===================================================================
 
 var makeError = require('./')
 var BaseError = makeError.BaseError
-
-// -------------------------------------------------------------------
-
-var expect = require('chai').expect
 
 // ===================================================================
 
@@ -32,7 +28,7 @@ function compareStacks (actual, expected) {
   actual = tmp[0]
   expected = tmp[1]
 
-  expect(actual).to.deep.equal(expected)
+  expect(actual).toEqual(expected)
 }
 
 var NL_RE = /\r?\n/
@@ -46,18 +42,18 @@ describe('makeError()', function () {
   it('throws on invalid arguments', function () {
     expect(function () {
       makeError(42)
-    }).to.throw(TypeError)
+    }).toThrow(TypeError)
     expect(function () {
       makeError('MyError', 42)
-    }).to.throw(TypeError)
+    }).toThrow(TypeError)
   })
 
   it('creates a new error class', function () {
     var constructorCalled
 
     function MyError (message) {
-      expect(MyError.super).to.equal(BaseError)
-      expect(MyError.super_).to.equal(BaseError)
+      expect(MyError.super).toBe(BaseError)
+      expect(MyError.super_).toBe(BaseError)
 
       MyError.super.call(this, message)
       constructorCalled = true
@@ -66,15 +62,15 @@ describe('makeError()', function () {
 
     var e = new MyError('my error message'); var stack = new Error().stack
 
-    expect(constructorCalled).to.be.true
+    expect(constructorCalled).toBe(true)
 
-    expect(e).to.be.an.instanceof(Error)
-    expect(e).to.be.an.instanceof(BaseError)
-    expect(e).to.be.an.instanceof(MyError)
+    expect(e).toBeInstanceOf(Error)
+    expect(e).toBeInstanceOf(BaseError)
+    expect(e).toBeInstanceOf(MyError)
 
-    expect(e.name).to.equal('MyError')
-    expect(e.message).to.equal('my error message')
-    expect(e.stack).is.a.string
+    expect(e.name).toBe('MyError')
+    expect(e.message).toBe('my error message')
+    expect(typeof e.stack).toBe('string')
     compareStacks(e.stack, stack)
   })
 
@@ -85,8 +81,8 @@ describe('makeError()', function () {
     makeError(MyBaseError)
 
     function MyDerivedError (message) {
-      expect(MyDerivedError.super).to.equal(MyBaseError)
-      expect(MyDerivedError.super_).to.equal(MyBaseError)
+      expect(MyDerivedError.super).toBe(MyBaseError)
+      expect(MyDerivedError.super_).toBe(MyBaseError)
 
       MyBaseError.super.call(this, message)
     }
@@ -94,14 +90,14 @@ describe('makeError()', function () {
 
     var e = new MyDerivedError('my error message'); var stack = new Error().stack
 
-    expect(e).to.be.an.instanceof(Error)
-    expect(e).to.be.an.instanceof(BaseError)
-    expect(e).to.be.an.instanceof(MyBaseError)
-    expect(e).to.be.an.instanceof(MyDerivedError)
+    expect(e).toBeInstanceOf(Error)
+    expect(e).toBeInstanceOf(BaseError)
+    expect(e).toBeInstanceOf(MyBaseError)
+    expect(e).toBeInstanceOf(MyDerivedError)
 
-    expect(e.name).to.equal('MyDerivedError')
-    expect(e.message).to.equal('my error message')
-    expect(e.stack).is.a.string
+    expect(e.name).toBe('MyDerivedError')
+    expect(e.message).toBe('my error message')
+    expect(typeof e.stack).toBe('string')
     compareStacks(e.stack, stack)
   })
 
@@ -110,13 +106,13 @@ describe('makeError()', function () {
 
     var e = new MyError('my error message'); var stack = new Error().stack
 
-    expect(e).to.be.an.instanceof(Error)
-    expect(e).to.be.an.instanceof(BaseError)
-    expect(e).to.be.an.instanceof(MyError)
+    expect(e).toBeInstanceOf(Error)
+    expect(e).toBeInstanceOf(BaseError)
+    expect(e).toBeInstanceOf(MyError)
 
-    expect(e.name).to.equal('MyError')
-    expect(e.message).to.equal('my error message')
-    expect(e.stack).is.a.string
+    expect(e.name).toBe('MyError')
+    expect(e.message).toBe('my error message')
+    expect(typeof e.stack).toBe('string')
     compareStacks(e.stack, stack)
   })
 })
@@ -139,15 +135,15 @@ describe('BaseError', function () {
 
     var e = new MyError('my error message'); var stack = new Error().stack
 
-    expect(constructorCalled).to.be.true
+    expect(constructorCalled).toBe(true)
 
-    expect(e).to.be.an.instanceof(Error)
-    expect(e).to.be.an.instanceof(BaseError)
-    expect(e).to.be.an.instanceof(MyError)
+    expect(e).toBeInstanceOf(Error)
+    expect(e).toBeInstanceOf(BaseError)
+    expect(e).toBeInstanceOf(MyError)
 
-    expect(e.name).to.equal('MyError')
-    expect(e.message).to.equal('my error message')
-    expect(e.stack).is.a.string
+    expect(e.name).toBe('MyError')
+    expect(e.message).toBe('my error message')
+    expect(typeof e.stack).toBe('string')
     compareStacks(e.stack, stack)
   })
 
@@ -164,13 +160,13 @@ describe('BaseError', function () {
 
     var e = new MyError('my error message'); var stack = new Error().stack
 
-    expect(e).to.be.an.instanceof(Error)
-    expect(e).to.be.an.instanceof(BaseError)
-    expect(e).to.be.an.instanceof(MyError)
+    expect(e).toBeInstanceOf(Error)
+    expect(e).toBeInstanceOf(BaseError)
+    expect(e).toBeInstanceOf(MyError)
 
-    expect(e.name).to.equal('MyError')
-    expect(e.message).to.equal('my error message')
-    expect(e.stack).is.a.string
+    expect(e.name).toBe('MyError')
+    expect(e.message).toBe('my error message')
+    expect(typeof e.stack).toBe('string')
     compareStacks(e.stack, stack)
   })
 })

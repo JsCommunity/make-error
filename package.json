@@ -26,26 +26,15 @@
   },
   "devDependencies": {
     "browserify": "^14.1.0",
-    "chai": "^3.3.0",
-    "mocha": "^3.0.0",
+    "jest": "^19.0.2",
     "standard": "^9.0.0",
-    "testling": "^1.7.1",
     "uglify-js": "^2.4.19"
   },
   "scripts": {
     "browserify": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
-    "dev-test": "mocha --watch --reporter=min index.spec.js",
-    "test": "standard && mocha index.spec.js",
-    "test-browser": "testling -u"
-  },
-  "testling": {
-    "harness": "mocha-bdd",
-    "files": "index.spec.js",
-    "browsers": [
-      "ie/8..Latest",
-      "chrome/latest",
-      "firefox/latest"
-    ]
+    "dev-test": "jest --watch",
+    "pretest": "standard",
+    "test": "jest"
   },
   "files": [
     "index.js",
