@@ -1,6 +1,7 @@
 {
   "name": "make-error",
   "version": "1.2.3",
+  "main": "index.js",
   "license": "ISC",
   "description": "Make your own error types!",
   "keywords": [
