@@ -169,4 +169,20 @@ describe('BaseError', function () {
     expect(typeof e.stack).toBe('string')
     compareStacks(e.stack, stack)
   })
+
+  ;(typeof Reflect !== 'undefined' ? it : it.skip)('can be reused as base error', function () {
+    class MyBaseError extends BaseError {}
+    var MyError = makeError('MyError', MyBaseError)
+
+    var e = new MyError('my error message'); var stack = new Error().stack
+
+    expect(e).toBeInstanceOf(Error)
+    expect(e).toBeInstanceOf(BaseError)
+    expect(e).toBeInstanceOf(MyError)
+
+    expect(e.name).toBe('MyError')
+    expect(e.message).toBe('my error message')
+    expect(typeof e.stack).toBe('string')
+    compareStacks(e.stack, stack)
+  })
 })

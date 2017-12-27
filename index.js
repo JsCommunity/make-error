@@ -4,6 +4,7 @@
 
 // ===================================================================
 
+var construct = typeof Reflect !== 'undefined' ? Reflect.construct : undefined
 var defineProperty = Object.defineProperty
 
 // -------------------------------------------------------------------
@@ -102,7 +103,9 @@ function makeError (constructor, super_) {
   var name
   if (typeof constructor === 'string') {
     name = constructor
-    constructor = function () { super_.apply(this, arguments) }
+    constructor = construct !== undefined
+      ? function () { return construct(super_, arguments, constructor) }
+      : function () { super_.apply(this, arguments) }
 
     // If the name can be set, do it once and for all.
     if (setFunctionName !== undefined) {
