@@ -9,7 +9,7 @@ var defineProperty = Object.defineProperty
 // -------------------------------------------------------------------
 
 var captureStackTrace = Error.captureStackTrace
-if (!captureStackTrace) {
+if (captureStackTrace === undefined) {
   captureStackTrace = function captureStackTrace (error) {
     var container = new Error()
 
@@ -39,7 +39,7 @@ if (!captureStackTrace) {
 // -------------------------------------------------------------------
 
 function BaseError (message) {
-  if (message) {
+  if (message !== undefined) {
     defineProperty(this, 'message', {
       configurable: true,
       value: message,
@@ -49,7 +49,7 @@ function BaseError (message) {
 
   var cname = this.constructor.name
   if (
-    cname &&
+    cname !== undefined &&
     cname !== this.name
   ) {
     defineProperty(this, 'name', {
@@ -105,9 +105,9 @@ function makeError (constructor, super_) {
     constructor = function () { super_.apply(this, arguments) }
 
     // If the name can be set, do it once and for all.
-    if (setFunctionName) {
+    if (setFunctionName !== undefined) {
       setFunctionName(constructor, name)
-      name = null
+      name = undefined
     }
   } else if (typeof constructor !== 'function') {
     throw new TypeError('constructor should be either a string or a function')
@@ -127,7 +127,7 @@ function makeError (constructor, super_) {
 
   // If the name could not be set on the constructor, set it on the
   // prototype.
-  if (name != null) {
+  if (name !== undefined) {
     properties.name = {
       configurable: true,
       value: name,
