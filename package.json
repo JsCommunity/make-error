@@ -38,7 +38,7 @@
   "scripts": {
     "commitmsg": "yarn test",
     "dev-test": "jest --watch",
-    "prepublish": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
+    "prepublishOnly": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
     "pretest": "standard",
     "test": "jest"
   },
