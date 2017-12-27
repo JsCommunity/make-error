@@ -28,7 +28,7 @@
   "devDependencies": {
     "browserify": "^14.5.0",
     "husky": "^0.14.3",
-    "jest": "^22.0.4",
+    "jest": "^20",
     "standard": "^10.0.3",
     "uglify-js": "^3.3.2"
   },
