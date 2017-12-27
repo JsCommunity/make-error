@@ -26,11 +26,11 @@
     "url": "git://github.com/JsCommunity/make-error.git"
   },
   "devDependencies": {
-    "browserify": "^14.3.0",
-    "husky": "^0.13.3",
-    "jest": "^20.0.3",
-    "standard": "^10.0.2",
-    "uglify-js": "^3.0.10"
+    "browserify": "^14.5.0",
+    "husky": "^0.14.3",
+    "jest": "^22.0.4",
+    "standard": "^10.0.3",
+    "uglify-js": "^3.3.2"
   },
   "scripts": {
     "commitmsg": "yarn test",
