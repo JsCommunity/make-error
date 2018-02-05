@@ -21,7 +21,9 @@ if (captureStackTrace === undefined) {
 
         // Replace property with value for faster future accesses.
         defineProperty(this, 'stack', {
-          value: stack
+          configurable: true,
+          value: stack,
+          writable: true
         })
 
         return stack
