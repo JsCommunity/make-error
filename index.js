@@ -109,6 +109,7 @@ function makeError (constructor, super_) {
       ? function () { return construct(super_, arguments, this.constructor) }
       : function () { super_.apply(this, arguments) }
 
+    // If the name can be set, do it once and for all.
     if (setFunctionName !== undefined) {
       setFunctionName(constructor, name)
       name = undefined
@@ -138,7 +139,6 @@ function makeError (constructor, super_) {
       writable: true
     }
   }
-
   constructor.prototype = Object.create(super_.prototype, properties)
 
   return constructor

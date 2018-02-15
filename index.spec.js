@@ -172,7 +172,6 @@ describe('BaseError', function () {
 
   ;(typeof Reflect !== 'undefined' ? it : it.skip)('can be reused as base error', function () {
     class MyBaseError extends BaseError {}
-
     var MyError = makeError('MyError', MyBaseError)
 
     var e = new MyError('my error message'); var stack = new Error().stack
