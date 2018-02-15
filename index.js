@@ -106,7 +106,7 @@ function makeError (constructor, super_) {
   if (typeof constructor === 'string') {
     name = constructor
     constructor = construct !== undefined
-      ? function () { return construct(super_, arguments, constructor) }
+      ? function () { return construct(super_, arguments, this.constructor) }
       : function () { super_.apply(this, arguments) }
 
     // If the name can be set, do it once and for all.
