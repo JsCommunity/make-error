@@ -172,6 +172,7 @@ describe('BaseError', function () {
 
   ;(typeof Reflect !== 'undefined' ? it : it.skip)('can be reused as base error', function () {
     class MyBaseError extends BaseError {}
+
     var MyError = makeError('MyError', MyBaseError)
 
     var e = new MyError('my error message'); var stack = new Error().stack
@@ -184,5 +185,17 @@ describe('BaseError', function () {
     expect(e.message).toBe('my error message')
     expect(typeof e.stack).toBe('string')
     compareStacks(e.stack, stack)
+  })
+
+  it('sub error should have its own name', function () {
+    var TestError = makeError('TestError')
+    var SubTestError = makeError('SubTestError', TestError)
+    // console.log(TestError.super_)
+    var again = new SubTestError('more bad')
+    expect(again.name).toBe('SubTestError')
+    // class Foo { }
+    // function Boo () { }
+    // const x = Reflect.construct(Foo, [], Boo)
+    // console.log(x)
   })
 })

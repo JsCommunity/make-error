@@ -106,13 +106,20 @@ function makeError (constructor, super_) {
   if (typeof constructor === 'string') {
     name = constructor
     constructor = construct !== undefined
-      ? function () { return construct(super_, arguments, constructor) }
+      ? function () {
+        var e = construct(super_, arguments, constructor)
+        Object.defineProperty(e, 'name', {
+          configurable: true,
+          value: name,
+          writable: true
+        })
+        return e
+      }
       : function () { super_.apply(this, arguments) }
 
     // If the name can be set, do it once and for all.
     if (setFunctionName !== undefined) {
       setFunctionName(constructor, name)
-      name = undefined
     }
   } else if (typeof constructor !== 'function') {
     throw new TypeError('constructor should be either a string or a function')
@@ -130,15 +137,6 @@ function makeError (constructor, super_) {
     }
   }
 
-  // If the name could not be set on the constructor, set it on the
-  // prototype.
-  if (name !== undefined) {
-    properties.name = {
-      configurable: true,
-      value: name,
-      writable: true
-    }
-  }
   constructor.prototype = Object.create(super_.prototype, properties)
 
   return constructor
