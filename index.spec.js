@@ -19,8 +19,8 @@ function getCommonLastItems (arr1, arr2, butFirsts) {
 }
 
 function compareStacks (actual, expected) {
-  actual = splitLines(actual)
-  expected = splitLines(expected)
+  actual = actual.split(/\r?\n/)
+  expected = expected.split(/\r?\n/)
 
   // We want to compare only the beginning (bottom) of the stack and
   // we don't want to compare the first (from head) two items.
@@ -31,158 +31,121 @@ function compareStacks (actual, expected) {
   expect(actual).toEqual(expected)
 }
 
-var NL_RE = /\r?\n/
-function splitLines (str) {
-  return String(str).split(NL_RE)
+function randomString () {
+  return Math.random().toString(36).slice(2)
 }
 
 // ===================================================================
 
-describe('makeError()', function () {
-  it('throws on invalid arguments', function () {
-    expect(function () {
-      makeError(42)
-    }).toThrow(TypeError)
-    expect(function () {
-      makeError('MyError', 42)
-    }).toThrow(TypeError)
-  })
-
-  it('creates a new error class', function () {
-    var constructorCalled
-
+var factories = {
+  'makeError(name)': makeError,
+  'makeError(constructor)': function (name, super_) {
     function MyError (message) {
-      expect(MyError.super).toBe(BaseError)
-      expect(MyError.super_).toBe(BaseError)
-
       MyError.super.call(this, message)
-      constructorCalled = true
     }
-    makeError(MyError)
+    Object.defineProperty(MyError, 'name', { value: name })
 
-    var e = new MyError('my error message'); var stack = new Error().stack
-
-    expect(constructorCalled).toBe(true)
-
-    expect(e).toBeInstanceOf(Error)
-    expect(e).toBeInstanceOf(BaseError)
-    expect(e).toBeInstanceOf(MyError)
-
-    expect(e.name).toBe('MyError')
-    expect(e.message).toBe('my error message')
-    expect(typeof e.stack).toBe('string')
-    compareStacks(e.stack, stack)
-  })
-
-  it('derives an existing error class', function () {
-    function MyBaseError (message) {
-      MyBaseError.super.call(this, message)
-    }
-    makeError(MyBaseError)
-
-    function MyDerivedError (message) {
-      expect(MyDerivedError.super).toBe(MyBaseError)
-      expect(MyDerivedError.super_).toBe(MyBaseError)
-
-      MyBaseError.super.call(this, message)
-    }
-    makeError(MyDerivedError, MyBaseError)
-
-    var e = new MyDerivedError('my error message'); var stack = new Error().stack
-
-    expect(e).toBeInstanceOf(Error)
-    expect(e).toBeInstanceOf(BaseError)
-    expect(e).toBeInstanceOf(MyBaseError)
-    expect(e).toBeInstanceOf(MyDerivedError)
-
-    expect(e.name).toBe('MyDerivedError')
-    expect(e.message).toBe('my error message')
-    expect(typeof e.stack).toBe('string')
-    compareStacks(e.stack, stack)
-  })
-
-  it('creates a new error class from a name', function () {
-    var MyError = makeError('MyError')
-
-    var e = new MyError('my error message'); var stack = new Error().stack
-
-    expect(e).toBeInstanceOf(Error)
-    expect(e).toBeInstanceOf(BaseError)
-    expect(e).toBeInstanceOf(MyError)
-
-    expect(e.name).toBe('MyError')
-    expect(e.message).toBe('my error message')
-    expect(typeof e.stack).toBe('string')
-    compareStacks(e.stack, stack)
-  })
-})
-
-describe('BaseError', function () {
-  it('can be inherited directly', function () {
-    var constructorCalled
-
+    expect(makeError(MyError, super_)).toBe(MyError)
+    return MyError
+  },
+  'ES3 inheritance': function (name, super_) {
     function MyError (message) {
       BaseError.call(this, message)
-      constructorCalled = true
     }
-
-    // Manually inherits from BaseError.
-    MyError.prototype = Object.create(BaseError.prototype, {
-      constructor: {
-        value: MyError
-      }
+    Object.defineProperty(MyError, 'name', {
+      value: name
     })
-
-    var e = new MyError('my error message'); var stack = new Error().stack
-
-    expect(constructorCalled).toBe(true)
-
-    expect(e).toBeInstanceOf(Error)
-    expect(e).toBeInstanceOf(BaseError)
-    expect(e).toBeInstanceOf(MyError)
-
-    expect(e.name).toBe('MyError')
-    expect(e.message).toBe('my error message')
-    expect(typeof e.stack).toBe('string')
-    compareStacks(e.stack, stack)
-  })
-
-  it('supports ES3 inheritance', function () {
-    function MyError (message) {
-      BaseError.call(this, message)
-    }
 
     function Tmp () {
       this.constructor = MyError
     }
-    Tmp.prototype = BaseError.prototype
+    Tmp.prototype = super_.prototype
     MyError.prototype = new Tmp()
 
-    var e = new MyError('my error message'); var stack = new Error().stack
+    return MyError
+  },
+  'ES5 inheritance': function (name, super_) {
+    function MyError (message) {
+      super_.call(this, message)
+    }
+    Object.defineProperty(MyError, 'name', {
+      value: name
+    })
 
-    expect(e).toBeInstanceOf(Error)
-    expect(e).toBeInstanceOf(BaseError)
-    expect(e).toBeInstanceOf(MyError)
+    // Manually inherits from BaseError.
+    MyError.prototype = Object.create(super_.prototype, {
+      constructor: {
+        configurable: true,
+        value: MyError,
+        writable: true
+      }
+    })
 
-    expect(e.name).toBe('MyError')
-    expect(e.message).toBe('my error message')
-    expect(typeof e.stack).toBe('string')
-    compareStacks(e.stack, stack)
-  })
+    return MyError
+  },
+  'ES6 inheritance': typeof Reflect !== 'undefined' && function (name, super_) {
+    return Object.defineProperty(class extends super_ {}, 'name', {
+      value: name
+    })
+  }
+}
 
-  ;(typeof Reflect !== 'undefined' ? it : it.skip)('can be reused as base error', function () {
-    class MyBaseError extends BaseError {}
-    var MyError = makeError('MyError', MyBaseError)
+var keys = Object.keys(factories)
 
-    var e = new MyError('my error message'); var stack = new Error().stack
+it('makeError throws on invalid arguments', function () {
+  expect(function () {
+    makeError(42)
+  }).toThrow(TypeError)
+  expect(function () {
+    makeError('MyError', 42)
+  }).toThrow(TypeError)
+})
 
-    expect(e).toBeInstanceOf(Error)
-    expect(e).toBeInstanceOf(BaseError)
-    expect(e).toBeInstanceOf(MyError)
+keys.forEach(function (title) {
+  var factory = factories[title]
+  ;(factory ? describe : describe.skip)(title, function () {
+    it('creates a new error class', function () {
+      var name = randomString()
+      var MyError = factory(name, BaseError)
 
-    expect(e.name).toBe('MyError')
-    expect(e.message).toBe('my error message')
-    expect(typeof e.stack).toBe('string')
-    compareStacks(e.stack, stack)
+      var message = randomString()
+      var e = new MyError(message)
+      var stack = new Error().stack
+
+      expect(e).toBeInstanceOf(Error)
+      expect(e).toBeInstanceOf(BaseError)
+      expect(e).toBeInstanceOf(MyError)
+
+      expect(e.name).toBe(name)
+      expect(e.message).toBe(message)
+      expect(typeof e.stack).toBe('string')
+      compareStacks(e.stack, stack)
+    })
+
+    describe('derivable with', function () {
+      keys.forEach(function (title2) {
+        var factory2 = factories[title2]
+        ;(factory2 ? it : it.skip)(title2, function () {
+          var baseName = randomString()
+          var MyBaseError = factory(baseName, BaseError)
+          var derivedName = randomString()
+          var MyDerivedError = factory2(derivedName, MyBaseError)
+
+          var message = randomString()
+          var e = new MyDerivedError(message)
+          var stack = new Error().stack
+
+          expect(e).toBeInstanceOf(Error)
+          expect(e).toBeInstanceOf(BaseError)
+          expect(e).toBeInstanceOf(MyBaseError)
+          expect(e).toBeInstanceOf(MyDerivedError)
+
+          expect(e.name).toBe(derivedName)
+          expect(e.message).toBe(message)
+          expect(typeof e.stack).toBe('string')
+          compareStacks(e.stack, stack)
+        })
+      })
+    })
   })
 })
