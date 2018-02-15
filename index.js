@@ -117,7 +117,6 @@ function makeError (constructor, super_) {
       }
       : function () { super_.apply(this, arguments) }
 
-    // If the name can be set, do it once and for all.
     if (setFunctionName !== undefined) {
       setFunctionName(constructor, name)
     }
