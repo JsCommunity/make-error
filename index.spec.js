@@ -148,4 +148,13 @@ keys.forEach(function (title) {
       })
     })
   })
+
+  it('sub error should have its own name', function () {
+    var TestError = makeError('TestError')
+    var SubTestError = makeError('SubTestError', TestError)
+
+    var again = new SubTestError('more bad')
+
+    expect(again.name).toBe('SubTestError')
+  })
 })
