@@ -129,7 +129,7 @@ function makeError (constructor, super_) {
   }
 
   constructor.prototype = Object.create(super_.prototype, properties)
-  constructor.prototype.constructor = constructor
+
   return constructor
 }
 exports = module.exports = makeError
