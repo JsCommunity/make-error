@@ -106,15 +106,7 @@ function makeError (constructor, super_) {
   if (typeof constructor === 'string') {
     name = constructor
     constructor = construct !== undefined
-      ? function () {
-        var e = construct(super_, arguments, constructor)
-        Object.defineProperty(e, 'name', {
-          configurable: true,
-          value: name,
-          writable: true
-        })
-        return e
-      }
+      ? function () { return construct(super_, arguments, this.constructor) }
       : function () { super_.apply(this, arguments) }
 
     if (setFunctionName !== undefined) {
@@ -137,7 +129,7 @@ function makeError (constructor, super_) {
   }
 
   constructor.prototype = Object.create(super_.prototype, properties)
-
+  constructor.prototype.constructor = constructor
   return constructor
 }
 exports = module.exports = makeError
