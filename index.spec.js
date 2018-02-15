@@ -189,12 +189,9 @@ describe('BaseError', function () {
   it('sub error should have its own name', function () {
     var TestError = makeError('TestError')
     var SubTestError = makeError('SubTestError', TestError)
-    // console.log(TestError.super_)
+
     var again = new SubTestError('more bad')
+
     expect(again.name).toBe('SubTestError')
-    // class Foo { }
-    // function Boo () { }
-    // const x = Reflect.construct(Foo, [], Boo)
-    // console.log(x)
   })
 })
