@@ -111,6 +111,7 @@ function makeError (constructor, super_) {
 
     if (setFunctionName !== undefined) {
       setFunctionName(constructor, name)
+      name = undefined
     }
   } else if (typeof constructor !== 'function') {
     throw new TypeError('constructor should be either a string or a function')
@@ -124,6 +125,16 @@ function makeError (constructor, super_) {
     constructor: {
       configurable: true,
       value: constructor,
+      writable: true
+    }
+  }
+
+  // If the name could not be set on the constructor, set it on the
+  // prototype.
+  if (name !== undefined) {
+    properties.name = {
+      configurable: true,
+      value: name,
       writable: true
     }
   }
