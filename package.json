@@ -36,7 +36,7 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "commitmsg": "yarn test",
+    "commitmsg": "run test",
     "dev-test": "jest --watch",
     "prepublishOnly": "mkdir -p dist && browserify -s makeError index.js | uglifyjs -c > dist/make-error.js",
     "pretest": "standard",
