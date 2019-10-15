@@ -1,4 +1,6 @@
-# make-error [![Build Status](https://img.shields.io/travis/JsCommunity/make-error/master.svg)](http://travis-ci.org/JsCommunity/make-error)
+# make-error
+
+[![Package Version](https://badgen.net/npm/v/make-error)](https://npmjs.org/package/make-error) [![Build Status](https://travis-ci.org/JsCommunity/make-error.png?branch=master)](https://travis-ci.org/JsCommunity/make-error) [![PackagePhobia](https://badgen.net/packagephobia/install/make-error)](https://packagephobia.now.sh/result?p=make-error) [![Latest Commit](https://badgen.net/github/last-commit/JsCommunity/make-error)](https://github.com/JsCommunity/make-error/commits/master)
 
 > Make your own error types!
 

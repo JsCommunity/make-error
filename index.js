@@ -122,6 +122,8 @@ function makeError(constructor, super_) {
 
   // Also register the super constructor also as `constructor.super_` just
   // like Node's `util.inherits()`.
+  //
+  // eslint-disable-next-line dot-notation
   constructor.super_ = constructor["super"] = super_;
 
   var properties = {

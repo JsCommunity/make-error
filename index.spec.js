@@ -86,7 +86,7 @@ var factories = {
     typeof Reflect !== "undefined" &&
     function(name, super_) {
       /* eslint-disable-next-line no-eval */
-      return Object.defineProperty(eval('(class extends super_ {})'), "name", {
+      return Object.defineProperty(eval("(class extends super_ {})"), "name", {
         value: name,
       });
     },
