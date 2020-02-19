@@ -24,7 +24,7 @@ declare namespace makeError {
   /**
    * Use with ES2015+ inheritance.
    */
-  export class BaseError implements Error {
+  export class BaseError extends Error {
     message: string;
     name: string;
     stack: string;
