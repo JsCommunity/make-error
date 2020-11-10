@@ -26,17 +26,16 @@
     "url": "git://github.com/JsCommunity/make-error.git"
   },
   "devDependencies": {
-    "browserify": "^16.2.3",
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.4.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "husky": "^3.0.9",
-    "jest": "^24",
-    "prettier": "^1.14.3",
+    "browserify": "^17.0.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^4.3.0",
+    "jest": "^26",
+    "prettier": "^2.1.2",
     "uglify-js": "^3.3.2"
   },
   "jest": {

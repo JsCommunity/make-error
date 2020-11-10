@@ -4,6 +4,9 @@ module.exports = {
     // standard configuration
     "standard",
 
+    // https://github.com/mysticatea/eslint-plugin-node#-rules
+    "plugin:node/recommended",
+
     // disable rules handled by prettier
     "prettier",
     "prettier/standard",
@@ -15,7 +18,6 @@ module.exports = {
   },
 
   rules: {
-    // https://github.com/eslint/eslint/issues/12437
-    "no-obj-calls": "off",
+    "no-var": "off",
   },
 };
