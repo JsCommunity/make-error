@@ -29,16 +29,14 @@ function compareStacks(actual, expected) {
 }
 
 function randomString() {
-  return Math.random()
-    .toString(36)
-    .slice(2);
+  return Math.random().toString(36).slice(2);
 }
 
 // ===================================================================
 
 var factories = {
   "makeError(name)": makeError,
-  "makeError(constructor)": function(name, super_) {
+  "makeError(constructor)": function (name, super_) {
     function MyError(message) {
       MyError.super.call(this, message);
     }
@@ -47,7 +45,7 @@ var factories = {
     expect(makeError(MyError, super_)).toBe(MyError);
     return MyError;
   },
-  "ES3 inheritance": function(name, super_) {
+  "ES3 inheritance": function (name, super_) {
     function MyError(message) {
       BaseError.call(this, message);
     }
@@ -63,7 +61,7 @@ var factories = {
 
     return MyError;
   },
-  "ES5 inheritance": function(name, super_) {
+  "ES5 inheritance": function (name, super_) {
     function MyError(message) {
       super_.call(this, message);
     }
@@ -84,7 +82,7 @@ var factories = {
   },
   "ES6 inheritance":
     typeof Reflect !== "undefined" &&
-    function(name, super_) {
+    function (name, super_) {
       /* eslint-disable-next-line no-eval */
       return Object.defineProperty(eval("(class extends super_ {})"), "name", {
         value: name,
@@ -94,19 +92,19 @@ var factories = {
 
 var keys = Object.keys(factories);
 
-it("makeError throws on invalid arguments", function() {
-  expect(function() {
+it("makeError throws on invalid arguments", function () {
+  expect(function () {
     makeError(42);
   }).toThrow(TypeError);
-  expect(function() {
+  expect(function () {
     makeError("MyError", 42);
   }).toThrow(TypeError);
 });
 
-keys.forEach(function(title) {
+keys.forEach(function (title) {
   var factory = factories[title];
-  (factory ? describe : describe.skip)(title, function() {
-    it("creates a new error class", function() {
+  (factory ? describe : describe.skip)(title, function () {
+    it("creates a new error class", function () {
       var name = randomString();
       var MyError = factory(name, BaseError);
 
@@ -124,10 +122,10 @@ keys.forEach(function(title) {
       compareStacks(e.stack, stack);
     });
 
-    describe("derivable with", function() {
-      keys.forEach(function(title2) {
+    describe("derivable with", function () {
+      keys.forEach(function (title2) {
         var factory2 = factories[title2];
-        (factory2 ? it : it.skip)(title2, function() {
+        (factory2 ? it : it.skip)(title2, function () {
           var baseName = randomString();
           var MyBaseError = factory(baseName, BaseError);
           var derivedName = randomString();

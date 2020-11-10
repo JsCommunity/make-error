@@ -74,7 +74,7 @@ BaseError.prototype = Object.create(Error.prototype, {
 // -------------------------------------------------------------------
 
 // Sets the name of a function if possible (depends of the JS engine).
-var setFunctionName = (function() {
+var setFunctionName = (function () {
   function setFunctionName(fn, name) {
     return defineProperty(fn, "name", {
       configurable: true,
@@ -82,7 +82,7 @@ var setFunctionName = (function() {
     });
   }
   try {
-    var f = function() {};
+    var f = function () {};
     setFunctionName(f, "foo");
     if (f.name === "foo") {
       return setFunctionName;
@@ -104,10 +104,10 @@ function makeError(constructor, super_) {
     name = constructor;
     constructor =
       construct !== undefined
-        ? function() {
+        ? function () {
             return construct(super_, arguments, this.constructor);
           }
-        : function() {
+        : function () {
             super_.apply(this, arguments);
           };
 
